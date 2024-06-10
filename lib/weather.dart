@@ -1,7 +1,7 @@
 import 'hourly_units.dart';
 import 'hourly.dart';
 
-class WeatherResponse {
+class Weather {
   final double latitude;
   final double longitude;
   final double generationTimeMs;
@@ -12,7 +12,7 @@ class WeatherResponse {
   final HourlyUnits hourlyUnits;
   final Hourly hourly;
 
-  WeatherResponse({
+  Weather({
     required this.latitude,
     required this.longitude,
     required this.generationTimeMs,
@@ -24,8 +24,8 @@ class WeatherResponse {
     required this.hourly,
   });
 
-  factory WeatherResponse.fromJson(Map<String, dynamic> json) {
-    return WeatherResponse(
+  factory Weather.fromJson(Map<String, dynamic> json) {
+    return Weather(
       latitude: json['latitude'],
       longitude: json['longitude'],
       generationTimeMs: json['generationtime_ms'],
