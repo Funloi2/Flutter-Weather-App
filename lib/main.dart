@@ -26,7 +26,22 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Weather App"),
+        title: const Text("Weather App"),
+        centerTitle: true,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(100, 24, 109, 127),
+                  Color.fromARGB(100, 33, 148, 174),
+                  Color.fromARGB(100, 43, 196, 229)
+                ],
+                stops: [0.15, 0.25, 0.9],
+                begin: Alignment.bottomRight,
+                end: Alignment.bottomLeft,
+              ),
+            ),
+          ),
       ),
       body: FutureBuilder<Weather>(
         future: futureWeather,
@@ -41,10 +56,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   Text("Generation Time: ${snapshot.data!.generationTimeMs}"),
                   Text("UTC Offset: ${snapshot.data!.utcOffsetSeconds}"),
                   Text("Timezone: ${snapshot.data!.timezone}"),
-                  Text("Timezone Abbreviation: ${snapshot.data!.timezoneAbbreviation}"),
+                  Text(
+                      "Timezone Abbreviation: ${snapshot.data!.timezoneAbbreviation}"),
                   Text("Elevation: ${snapshot.data!.elevation}"),
-                  Text("Hourly Units: ${snapshot.data!.hourlyUnits.time}, ${snapshot.data!.hourlyUnits.temperature2m}"),
-                  Text("Hourly: ${snapshot.data!.hourly.time}, ${snapshot.data!.hourly.temperature2m}"),
+                  Text(
+                      "Hourly Units: ${snapshot.data!.hourlyUnits.time}, ${snapshot.data!.hourlyUnits.temperature2m}"),
+                  Text(
+                      "Hourly: ${snapshot.data!.hourly.time}, ${snapshot.data!.hourly.temperature2m}"),
                 ],
               ),
             );
