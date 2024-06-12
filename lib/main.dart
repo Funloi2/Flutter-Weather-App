@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'services/api.dart';
 import 'weather.dart';
@@ -25,58 +26,45 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 43, 196, 229),
       appBar: AppBar(
         title: const Text("Weather App"),
         centerTitle: true,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(100, 24, 109, 127),
-                  Color.fromARGB(100, 33, 148, 174),
-                  Color.fromARGB(100, 43, 196, 229)
-                ],
-                stops: [0.15, 0.25, 0.9],
-                begin: Alignment.bottomRight,
-                end: Alignment.bottomLeft,
-              ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 43, 196, 229),
+                Color.fromARGB(255, 24, 109, 127)
+              ],
             ),
           ),
+        ),
       ),
-      body: FutureBuilder<Weather>(
-        future: futureWeather,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Latitude: ${snapshot.data!.latitude}"),
-                  Text("Longitude: ${snapshot.data!.longitude}"),
-                  Text("Generation Time: ${snapshot.data!.generationTimeMs}"),
-                  Text("UTC Offset: ${snapshot.data!.utcOffsetSeconds}"),
-                  Text("Timezone: ${snapshot.data!.timezone}"),
-                  Text(
-                      "Timezone Abbreviation: ${snapshot.data!.timezoneAbbreviation}"),
-                  Text("Elevation: ${snapshot.data!.elevation}"),
-                  Text(
-                      "Hourly Units: ${snapshot.data!.hourlyUnits.time}, ${snapshot.data!.hourlyUnits.temperature2m}"),
-                  Text(
-                      "Hourly: ${snapshot.data!.hourly.time}, ${snapshot.data!.hourly.temperature2m}"),
-                ],
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text("${snapshot.error}"),
-            );
-          }
-
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
+      body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 43, 196, 229),
+                Color.fromARGB(255, 24, 109, 127)
+              ],
+            ),
+          ),
+          child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // TODO : Set main card white background color and display data into it
+                      Container (
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      )
+                    ]),
+              ))),
     );
   }
 }
