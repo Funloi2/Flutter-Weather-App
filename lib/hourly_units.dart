@@ -1,14 +1,14 @@
-class HourlyUnits {
+class HourlyUnit {
   final String time;
-  final String temperature2m;
+  final double temperature2m;
 
-  HourlyUnits({
+  HourlyUnit({
     required this.time,
     required this.temperature2m,
   });
 
-  factory HourlyUnits.fromJson(Map<String, dynamic> json) {
-    return HourlyUnits(
+  factory HourlyUnit.fromJson(Map<String, dynamic> json) {
+    return HourlyUnit(
       time: json['time'],
       temperature2m: json['temperature_2m'],
     );

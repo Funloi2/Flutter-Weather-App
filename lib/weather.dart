@@ -9,7 +9,6 @@ class Weather {
   final String timezone;
   final String timezoneAbbreviation;
   final double elevation;
-  final HourlyUnits hourlyUnits;
   final Hourly hourly;
 
   Weather({
@@ -20,7 +19,6 @@ class Weather {
     required this.timezone,
     required this.timezoneAbbreviation,
     required this.elevation,
-    required this.hourlyUnits,
     required this.hourly,
   });
 
@@ -33,8 +31,7 @@ class Weather {
       timezone: json['timezone'],
       timezoneAbbreviation: json['timezone_abbreviation'],
       elevation: json['elevation'],
-      hourlyUnits: HourlyUnits.fromJson(json['hourly_units']),
-      hourly: Hourly.fromJson(json['hourly']),
+        hourly: Hourly.fromJson(json['hourly'])
     );
   }
 }

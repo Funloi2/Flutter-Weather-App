@@ -3,6 +3,7 @@ import 'package:aquatech_weather/style/styled_body_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'hourly_units.dart';
 import 'services/api.dart';
 import 'weather.dart';
 
@@ -88,9 +89,37 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         end: Alignment.bottomRight,
                       ),
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text("text"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FutureBuilder<Weather>(
+                        future: futureWeather,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<HourlyUnit> hourlyUnits = snapshot.data!.hourly.hourlyUnits;
+
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: hourlyUnits.map((hourlyUnit) {
+                                  return SingleWeatherTemplate(
+                                    hourlyUnit.temperature2m,
+                                    hourlyUnit.time,
+                                  );
+                                }).toList(),
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                              "Error: ${snapshot.error}",
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
                     ),
                   ),
                 ],
