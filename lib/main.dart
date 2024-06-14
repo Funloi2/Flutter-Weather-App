@@ -104,6 +104,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   return SingleWeatherTemplate(
                                     hourlyUnit.temperature2m,
                                     hourlyUnit.time,
+                                    hourlyUnit,
                                   );
                                 }).toList(),
                               ),
