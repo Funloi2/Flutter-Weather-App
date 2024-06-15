@@ -69,7 +69,7 @@ class WeatherSearchScreen extends StatelessWidget {
                         "Temperature ressenti: ${hourlyUnit.apparentTemperature}°C",
                         false,
                         17.0),
-                    StyledBodyText("Précipitaion prévue: ${hourlyUnit.rain} mm",
+                    StyledBodyText("Précipitaion: ${hourlyUnit.rain} mm",
                         false, 17.0),
                     StyledBodyText(
                         "Visibilité: ${formatVisibility(hourlyUnit.visibility)} m",
