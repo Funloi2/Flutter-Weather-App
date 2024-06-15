@@ -49,6 +49,31 @@ class WeatherDetailScreen extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
+                  Text(
+                    "Apparent Temperature: ${hourlyUnit.apparentTemperature}°C",
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Rain: ${hourlyUnit.rain}mm",
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Visibility: ${hourlyUnit.visibility}m",
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Wind Direction: ${hourlyUnit.wind_direction_10m}°",
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Wind Gusts: ${hourlyUnit.wind_gusts_10m}m/s",
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
                   // Add more information as needed
                 ],
               ),
