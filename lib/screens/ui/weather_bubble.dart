@@ -3,11 +3,11 @@ import 'package:aquatech_weather/style/styled_body_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../hourly_units.dart';
-import '../screens/weather_detail_screen.dart';
+import '../../models/hourly_units.dart';
+import '../weather_detail_screen.dart';
 
-class SingleWeatherTemplate extends StatelessWidget {
-  const SingleWeatherTemplate(this.temperature, this.hour, this.hourlyUnit, {super.key});
+class WeatherBubble extends StatelessWidget {
+  const WeatherBubble(this.temperature, this.hour, this.hourlyUnit, {super.key});
 
   final double temperature;
   final String hour;
@@ -36,19 +36,15 @@ class SingleWeatherTemplate extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
+              StyledBodyText(
                 "$temperature°C",
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
+                true,
+                20,
               ),
-              Text(
+              StyledBodyText(
                 formattedTime,
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
+                false,
+                20,
               ),
             ],
           ),

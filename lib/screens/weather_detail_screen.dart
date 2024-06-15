@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../hourly_units.dart';
-import '../style/single_weather_template.dart';
+import '../models/hourly_units.dart';
+import 'ui/weather_bubble.dart';
 
 class WeatherDetailScreen extends StatelessWidget {
   final HourlyUnit hourlyUnit;

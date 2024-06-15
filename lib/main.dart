@@ -1,16 +1,12 @@
-import 'dart:convert';
-
 import 'package:aquatech_weather/screens/weather_search_detail.dart';
 import 'package:aquatech_weather/services/geocoding_service.dart';
-import 'package:aquatech_weather/style/single_weather_template.dart';
+import 'package:aquatech_weather/screens/ui/weather_bubble.dart';
 import 'package:aquatech_weather/style/styled_body_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'hourly_units.dart';
-import 'services/api.dart';
-import 'package:http/http.dart' as http;
-import 'weather.dart';
+import 'package:intl/intl.dart';
+import 'models/hourly_units.dart';
+import 'services/weather_service.dart';
+import 'models/weather.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -27,16 +23,25 @@ class _WeatherScreenState extends State<WeatherScreen> {
   late Future<Weather> futureWeather;
   final TextEditingController _controller = TextEditingController();
   String? _error;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   Future<void> _searchCity(String city) async {
+    if (_startDate == null || _endDate == null) {
+      setState(() {
+        _error = "Veuillez choisir une date de début et de fin.";
+      });
+      return;
+    }
+
     try {
       final coordinates = await GeocodingService().getCoordinatesFromCity(city);
-      final weather = await WeatherService().fetchWeatherData(coordinates.latitude,
-          coordinates.longitude, "2024-06-01", "2024-06-01");
+      final startDay = DateFormat('yyyy-MM-dd').format(_startDate!);
+      final endDay = DateFormat('yyyy-MM-dd').format(_endDate!);
+      final weather = await WeatherService().fetchWeatherData(coordinates.latitude, coordinates.longitude, startDay, endDay);
       setState(() {
         _error = null;
       });
-      // Navigate to the WeatherDetailScreen
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -46,6 +51,23 @@ class _WeatherScreenState extends State<WeatherScreen> {
     } catch (e) {
       setState(() {
         _error = e.toString();
+      });
+    }
+  }
+
+  Future<void> _selectDateRange(BuildContext context) async {
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime.now().subtract(Duration(days: 365)),
+      lastDate: DateTime.now().add(Duration(days: 365)),
+      initialDateRange: _startDate != null && _endDate != null
+          ? DateTimeRange(start: _startDate!, end: _endDate!)
+          : null,
+    );
+    if (picked != null) {
+      setState(() {
+        _startDate = picked.start;
+        _endDate = picked.end;
       });
     }
   }
@@ -63,7 +85,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 43, 196, 229),
       appBar: AppBar(
-        title: const Text("Weather App"),
+        title: const Text("Application météo"),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -90,31 +112,57 @@ class _WeatherScreenState extends State<WeatherScreen> {
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.all(30.0),
-              child: TextField(
-                controller: _controller,
-                decoration: const InputDecoration(
-                  hintText: "Enter a city",
-                  hintStyle: TextStyle(
-                    color: Colors.black,
+              margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      hintText: "Choisir une ville",
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      color: Colors.black,
+                    ),
+                    onSubmitted: (value) {
+                      _searchCity(value);
+                    },
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide.none,
+                  const SizedBox(height: 5.0),
+                  ElevatedButton(
+                    onPressed: () => _selectDateRange(context),
+                    child: const Text("Choisir une date"),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                  ),
-                ),
-                style: const TextStyle(
-                  color: Colors.black,
-                ),
-                onSubmitted: (value) {
-                  _searchCity(value);
-                },
+                  if (_startDate != null && _endDate != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: StyledBodyText(
+                        "Dates choisit: ${DateFormat('dd/MM/yyyy').format(_startDate!)} "
+                            "- ${DateFormat('dd/MM/yyyy').format(_endDate!)}",
+                        false,
+                        15.0
+                      ),
+                    ),
+                  _error != null
+                      ? Text(
+                    _error!,
+                    style: const TextStyle(color: Colors.red),
+                  )
+                      : Container(),
+                ],
               ),
             ),
             Center(
@@ -123,19 +171,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16.0),
                 ),
-                margin: const EdgeInsets.all(30.0),
+                margin: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      const Text(
-                        "Montpellier",
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      const StyledBodyText("Montpellier", true, 25),
                       const Divider(),
                       Container(
                         margin: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -157,12 +199,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 List<HourlyUnit> hourlyUnits = snapshot.data!.hourly.hourlyUnits;
-
                                 return SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: hourlyUnits.map((hourlyUnit) {
-                                      return SingleWeatherTemplate(
+                                      return WeatherBubble(
                                         hourlyUnit.temperature2m,
                                         hourlyUnit.time,
                                         hourlyUnit,
@@ -171,12 +212,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   ),
                                 );
                               } else if (snapshot.hasError) {
-                                return Text(
-                                  "Error: ${snapshot.error}",
-                                  style: const TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                return StyledBodyText(
+                                  "Erreur: ${snapshot.error}",
+                                  false,
+                                  20.0,
                                 );
                               }
                               return const CircularProgressIndicator();

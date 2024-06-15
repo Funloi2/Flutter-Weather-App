@@ -13,10 +13,10 @@ class GeocodingService {
         final result = data['results'][0];
         return Coordinates(result['latitude'], result['longitude']);
       } else {
-        throw Exception("City not found");
+        throw Exception("Ville non trouvée");
       }
     } else {
-      throw Exception("Failed to load coordinates");
+      throw Exception("Erreur lors de la recherche de la ville");
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../weather.dart';
+import '../models/weather.dart';
 
 class WeatherService {
   final String apiUrl = "https://api.open-meteo.com/v1/forecast";
@@ -11,7 +11,7 @@ class WeatherService {
     if (response.statusCode == 200) {
       return Weather.fromJson(json.decode(response.body));
     } else {
-      throw Exception("Failed to load weather data");
+      throw Exception("Erreur lors de la récupération des données météo.");
     }
   }
 }
