@@ -34,6 +34,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
       return;
     }
 
+    // Fetch coordinates from city
     try {
       final coordinates = await GeocodingService().getCoordinatesFromCity(city);
       final startDay = DateFormat('yyyy-MM-dd').format(_startDate!);
@@ -55,6 +56,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     }
   }
 
+  // Show a date range picker
   Future<void> _selectDateRange(BuildContext context) async {
     final picked = await showDateRangePicker(
       context: context,
@@ -99,6 +101,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ),
       ),
       body: Container(
+        // graadient background
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -111,6 +114,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ),
         child: Column(
           children: [
+            // Search bar
             Container(
               margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
               child: Column(
@@ -165,6 +169,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 ],
               ),
             ),
+            // Weather card
             Center(
               child: Card(
                 elevation: 8.0,
@@ -175,6 +180,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    // Default city
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       const StyledBodyText("Montpellier", true, 25),
