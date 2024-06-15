@@ -4,8 +4,8 @@ class HourlyUnit {
   final double apparentTemperature;
   final double rain;
   final double visibility;
-  final int wind_direction_10m;
-  final double wind_gusts_10m;
+  final int windDirection10m;
+  final double windGusts10m;
 
   HourlyUnit({
     required this.time,
@@ -13,8 +13,8 @@ class HourlyUnit {
     required this.apparentTemperature,
     required this.rain,
     required this.visibility,
-    required this.wind_direction_10m,
-    required this.wind_gusts_10m,
+    required this.windDirection10m,
+    required this.windGusts10m,
   });
 
   factory HourlyUnit.fromJson(Map<String, dynamic> json) {
@@ -24,8 +24,8 @@ class HourlyUnit {
       apparentTemperature: json['apparent_temperature'],
       rain: json['rain'],
       visibility: json['visibility'],
-      wind_direction_10m: json['wind_direction_10m'],
-      wind_gusts_10m: json['wind_gusts_10m'],
+      windDirection10m: json['wind_direction_10m'],
+      windGusts10m: json['wind_gusts_10m'],
     );
   }
 }

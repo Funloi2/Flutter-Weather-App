@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aquatech_weather/screens/weather_search_detail.dart';
 import 'package:aquatech_weather/services/geocoding_service.dart';
 import 'package:aquatech_weather/style/single_weather_template.dart';
 import 'package:aquatech_weather/style/styled_body_text.dart';
@@ -25,18 +26,23 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen> {
   late Future<Weather> futureWeather;
   final TextEditingController _controller = TextEditingController();
-  Weather? _weather;
   String? _error;
-
 
   Future<void> _searchCity(String city) async {
     try {
       final coordinates = await GeocodingService().getCoordinatesFromCity(city);
-      final weather = await WeatherService().fetchWeatherData(coordinates.latitude, coordinates.longitude);
+      final weather = await WeatherService().fetchWeatherData(coordinates.latitude,
+          coordinates.longitude, "2024-06-01", "2024-06-01");
       setState(() {
-        _weather = weather;
         _error = null;
       });
+      // Navigate to the WeatherDetailScreen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WeatherSearchScreen(weather: weather),
+        ),
+      );
     } catch (e) {
       setState(() {
         _error = e.toString();
@@ -48,7 +54,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     super.initState();
-    futureWeather = WeatherService().fetchWeatherData(43.6109, 3.8763);
+    futureWeather = WeatherService().fetchWeatherData(43.6109, 3.8763,"2024-06-15","2024-06-15");
   }
 
   @override

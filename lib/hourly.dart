@@ -19,8 +19,8 @@ class Hourly {
           apparentTemperature: json['apparent_temperature'][i],
           rain: json['rain'][i],
           visibility: json['visibility'][i],
-          wind_direction_10m: json['wind_direction_10m'][i],
-          wind_gusts_10m: json['wind_gusts_10m'][i]));
+          windDirection10m: json['wind_direction_10m'][i],
+          windGusts10m: json['wind_gusts_10m'][i]));
     }
 
     return Hourly(

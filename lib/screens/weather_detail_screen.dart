@@ -65,12 +65,12 @@ class WeatherDetailScreen extends StatelessWidget {
                         fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "Wind Direction: ${hourlyUnit.wind_direction_10m}°",
+                    "Wind Direction: ${hourlyUnit.windDirection10m}°",
                     style: const TextStyle(
                         fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "Wind Gusts: ${hourlyUnit.wind_gusts_10m}m/s",
+                    "Wind Gusts: ${hourlyUnit.windGusts10m}m/s",
                     style: const TextStyle(
                         fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
