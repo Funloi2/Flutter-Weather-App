@@ -1,6 +1,8 @@
+import 'package:aquatech_weather/screens/favorite_screen.dart';
 import 'package:aquatech_weather/screens/weather_search_detail.dart';
 import 'package:aquatech_weather/services/geocoding_service.dart';
 import 'package:aquatech_weather/screens/ui/weather_bubble.dart';
+import 'package:aquatech_weather/services/utils.dart';
 import 'package:aquatech_weather/style/styled_body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -46,7 +48,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => WeatherSearchScreen(weather: weather),
+          builder: (context) => WeatherSearchScreen(weather: weather, cityName: capitalize(city)),
         ),
       );
     } catch (e) {
@@ -88,6 +90,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
       backgroundColor: const Color.fromARGB(255, 43, 196, 229),
       appBar: AppBar(
         title: const Text("Application météo"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavoritesScreen()),
+              );
+            },
+          ),
+        ],
         centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(

@@ -1,12 +1,14 @@
 import 'package:aquatech_weather/style/styled_body_text.dart';
 import 'package:flutter/material.dart';
 import '../models/weather.dart';
+import '../services/favoriteService.dart';
 
 class WeatherSearchScreen extends StatelessWidget {
   final Weather weather;
+  final String cityName;
 
 
-  const WeatherSearchScreen({Key? key, required this.weather})
+  const WeatherSearchScreen({Key? key, required this.weather, required this.cityName})
       : super(key: key);
 
   @override
@@ -14,6 +16,17 @@ class WeatherSearchScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const StyledBodyText("Détail météo", true, 30.0),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite, color: Colors.white,),
+            onPressed: () async {
+              await FavoritesManager.addFavoriteCity(cityName);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('$cityName ajouté aux favoris')),
+              );
+            },
+          ),
+        ],
         centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
