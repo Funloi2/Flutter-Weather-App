@@ -1,14 +1,13 @@
 import 'package:aquatech_weather/screens/ui/default_weather_card.dart';
+import 'package:aquatech_weather/screens/ui/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:aquatech_weather/screens/favorite_screen.dart';
 import 'package:aquatech_weather/screens/weather_search_detail.dart';
 import 'package:aquatech_weather/services/geocoding_service.dart';
 import 'package:aquatech_weather/services/weather_service.dart';
-import 'package:aquatech_weather/models/hourly_units.dart';
 import 'package:aquatech_weather/models/weather.dart';
 import 'package:aquatech_weather/style/styled_body_text.dart';
-import 'package:aquatech_weather/screens/ui/weather_bubble.dart';
 import 'package:aquatech_weather/services/utils.dart';
 
 void main() {
@@ -124,7 +123,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ),
         child: Column(
           children: [
-            SearchBar(
+            SearchBarWidget(
               controller: _controller,
               startDate: _startDate,
               endDate: _endDate,
@@ -140,76 +139,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 }
 
-class SearchBar extends StatelessWidget {
-  final TextEditingController controller;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final Function(String) onSubmitted;
-  final VoidCallback onSelectDateRange;
-  final String? error;
 
-  const SearchBar({
-    required this.controller,
-    required this.startDate,
-    required this.endDate,
-    required this.onSubmitted,
-    required this.onSelectDateRange,
-    this.error,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              hintText: "Choisir une ville",
-              hintStyle: TextStyle(
-                color: Colors.black,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide.none,
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              prefixIcon: Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-            ),
-            style: const TextStyle(
-              color: Colors.black,
-            ),
-            onSubmitted: onSubmitted,
-          ),
-          const SizedBox(height: 5.0),
-          ElevatedButton(
-            onPressed: onSelectDateRange,
-            child: const Text("Choisir une date"),
-          ),
-          if (startDate != null && endDate != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: StyledBodyText(
-                "Dates choisit: ${DateFormat('dd/MM/yyyy').format(startDate!)} - ${DateFormat('dd/MM/yyyy').format(endDate!)}",
-                false,
-                15.0,
-              ),
-            ),
-          if (error != null)
-            Text(
-              error!,
-              style: const TextStyle(color: Colors.red),
-            ),
-        ],
-      ),
-    );
-  }
-}
 
 
