@@ -28,6 +28,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   DateTime? _startDate;
   DateTime? _endDate;
 
+
   Future<void> _searchCity(String city) async {
     if (_startDate == null || _endDate == null) {
       setState(() {
@@ -80,19 +81,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     super.initState();
-    futureWeather = WeatherService().fetchWeatherData(43.6109, 3.8763,"2024-06-15","2024-06-15");
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    futureWeather = WeatherService().fetchWeatherData(43.6109, 3.8763,formattedDate,formattedDate);
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 43, 196, 229),
       appBar: AppBar(
-        title: const Text("Application météo"),
+        title: const StyledBodyText("Application météo", true, 25.0),
         actions: [
           IconButton(
-            icon: const Icon(Icons.favorite),
+            icon: const Icon(Icons.favorite, color: Colors.white,),
             onPressed: () {
               Navigator.push(
                 context,

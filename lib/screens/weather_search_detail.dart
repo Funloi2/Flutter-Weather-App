@@ -23,7 +23,8 @@ class WeatherSearchScreen extends StatelessWidget {
             onPressed: () async {
               await FavoritesManager.addFavoriteCity(cityName);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('$cityName ajouté aux favoris')),
+                SnackBar(content: StyledBodyText('$cityName ajouté aux favoris',
+                    false, 15.0)),
               );
             },
           ),

@@ -17,6 +17,17 @@ class WeatherDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Weather Details"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 43, 196, 229),
+                Color.fromARGB(255, 24, 109, 127)
+              ],
+            ),
+          ),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -41,10 +52,9 @@ class WeatherDetailScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text(
+                  StyledBodyText(
                     "Temperature: ${hourlyUnit.temperature2m}°C",
-                    style: const TextStyle(
-                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                    true,20.0
                   ),
                   StyledBodyText(
                     "Heure: $formattedTime",
